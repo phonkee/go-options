@@ -29,10 +29,6 @@ import (
 	"github.com/phonkee/options"
 )
 
-var (
-	ErrInvalidHello = fmt.Errorf("%w: hello cannot be empty", options.ErrImproperlyConfigured)
-)
-
 // Option is an alias for options.Option
 type Option = options.Option[opts]
 
@@ -40,7 +36,7 @@ type Option = options.Option[opts]
 func WithHello(hello string) Option {
 	return func(o *opts) error {
 		if hello == "" {
-			return ErrInvalidHello
+			return fmt.Errorf("%w: hello cannot be empty", options.ErrImproperlyConfigured)
 		}
 		o.Hello = hello
 		// add another options here

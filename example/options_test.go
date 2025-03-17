@@ -40,7 +40,6 @@ func TestExample(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, "hello", o.Get().Hello)
 		assert.Equal(t, "world", o.Get().World)
-
 	})
 
 	t.Run("test invalid", func(t *testing.T) {
@@ -50,8 +49,6 @@ func TestExample(t *testing.T) {
 			WithHello(""),
 		)
 		assert.Nil(t, o)
-		assert.ErrorIs(t, err, ErrInvalidHello)
 		assert.ErrorIs(t, err, options.ErrImproperlyConfigured)
-
 	})
 }

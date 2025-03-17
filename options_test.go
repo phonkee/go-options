@@ -24,17 +24,27 @@
 
 package options
 
-import "errors"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
-// Option is a function that is functional option for configuring a type.
-type Option[T any] func(*T) error
-
-// Validator is an interface that defines a method for validating options.
-type Validator interface {
-	Validate() error
+// ptrTo is a helper function to create a pointer to a value of type T
+func ptrTo[T any](v T) *T {
+	return &v
 }
 
-var (
-	// ErrImproperlyConfigured is returned when the options are not properly configured.
-	ErrImproperlyConfigured = errors.New("improperly configured")
-)
+func TestNew(t *testing.T) {
+	t.Run("invalid pointer type", func(t *testing.T) {
+		opts, err := New[*int](ptrTo(1))
+		assert.Nil(t, opts)
+		assert.ErrorIs(t, err, ErrImproperlyConfigured)
+	})
+
+	t.Run("valid type", func(t *testing.T) {
+		opts, err := New(42)
+		assert.NotNil(t, opts)
+		assert.NoError(t, err)
+		assert.Equal(t, 42, opts.Get())
+	})
+}
