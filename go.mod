@@ -1,4 +1,4 @@
-module github.com/phonkee/options
+module github.com/phonkee/go-options
 
 go 1.24
 
